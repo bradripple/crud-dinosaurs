@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="GET" action="/dinosaurs">
+        <label for="nameFilter">Filter by Name</label>
+        <input id="nameFilter" type="text" name="nameFilter">
+        <input type="submit">
+    </form>
+ 
+
+   <ul>
+       <% myDinos.forEach(function(dino, index) { %>
+        <li><%= dino.name %> is a <%= dino.type %> 
+            <a href="/dinosaurs/edit/<%= index %>">Edit</a>
+            <form method="POST" action="/dinosaurs/<%= index %>/?_method=DELETE">
+                <input type="submit" value="Delete">
+            </form>
+        </li>
+        <% }); %>
+   </ul>
+</body>
+</html>
+
+
