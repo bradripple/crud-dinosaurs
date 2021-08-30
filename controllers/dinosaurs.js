@@ -22,14 +22,11 @@ router.get('/', function(req, res) {
 router.get('/new', function(req, res) {
     res.render('dinosaurs/new');
 });
-
-router.post('/', function(req, res) {
-    console.log(req.body);
-})
+ 
 
 router.post('/', function(req, res) {
     // read dinosaurs file
-    const dinosaurs = fs.readFileSync('./dinosaurs.json');
+    let dinosaurs = fs.readFileSync('./dinosaurs.json');
     dinosaurs = JSON.parse(dinosaurs);
 
     // add item to dinosaurs array
@@ -53,6 +50,8 @@ router.get('/edit/:idx', function(req, res) {
 router.put('/:idx', function(req, res) {
     let dinosaurs = fs.readFileSync('./dinosaurs.json');
     let dinoData = JSON.parse(dinosaurs);
+    // console.log(dinoData);
+    console.log(dinoData[req.params.idx].name = req.body.name);
 
     // re-assign the name and type fields of the dinosaur to be edited 
     dinoData[req.params.idx].name = req.body.name;
@@ -66,11 +65,11 @@ router.put('/:idx', function(req, res) {
 // express show route for dinosaurs (lists one dinosaur)
 router.get('/:idx', function(req, res) {
     // get dinosaurs
-    const dinosaurs = fs.readFileSync('./dinosaurs.json');
-    const dinoData = JSON.parse(dinosaurs);
+    let dinosaurs = fs.readFileSync('./dinosaurs.json');
+    let dinoData = JSON.parse(dinosaurs);
 
     // get array index from url parameter
-    const dinoIndex = parseInt(req.params.idx);
+    let dinoIndex = parseInt(req.params.idx);
 
     // render page with data of the specified animal
     res.render('dinosaurs/show', {myDino: dinoData[dinoIndex]})

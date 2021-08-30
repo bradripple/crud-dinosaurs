@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
-
+router.use(express.urlencoded({extended: false}));
 
 router.get('/', function(req, res) {
     let creatures = fs.readFileSync('./prehistoric_creatures.json');
@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
     
     if (nameFilter) {
         creaturesData = creaturesData.filter(function(creature) {
-            return creature.name.toLowerCase() === nameFilter.toLowerCase();
+            return creature.type.toLowerCase() === nameFilter.toLowerCase();
         });
     }
     
@@ -35,10 +35,6 @@ router.get('/:idx', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    console.log(req.body);
-})
-
-router.post('/', function(req, res) {
     // read prehistoric_creatures file
     let creatures = fs.readFileSync('./prehistoric_creatures.json');
     creatures = JSON.parse(creatures);
@@ -59,6 +55,18 @@ router.get('/edit/:idx', function(req, res) {
     res.render('prehistoric_creatures/edit', { myCreatures: creaturesData[req.params.idx], creaturesId: req.params.idx});
 });
 
+router.put('/:idx', function(req, res) {
+    let creatures = fs.readFileSync('./prehistoric_creatures.json');
+    let creaturesData = JSON.parse(creatures);
+
+    // re-assign the type and img_url fields of the creature to be edited 
+    creaturesData[req.params.idx].type = req.body.type;
+    creaturesData[req.params.idx].img_url = req.body.img_url;
+
+    // save the edited creature to the data.json file
+    fs.writeFileSync('./prehistoric_creatures.json', JSON.stringify(creaturesData));
+    res.redirect('/prehistoric_creatures');
+});
 
 router.delete('/:idx', function(req, res) {
     let creatures = fs.readFileSync('./prehistoric_creatures.json');
@@ -74,18 +82,6 @@ router.delete('/:idx', function(req, res) {
     res.redirect('/prehistoric_creatures');
 })
 
-router.put('/:idx', function(req, res) {
-    let creatures = fs.readFileSync('./prehistoric_creatures.json');
-    let creaturesData = JSON.parse(creatures);
-
-    // re-assign the type and img_url fields of the creature to be edited 
-    creaturesData[req.params.idx].type = req.body.name;
-    creaturesData[req.params.idx].img_url = req.body.type;
-
-    // save the edited creature to the data.json file
-    fs.writeFileSync('./prehistoric_creatures.json', JSON.stringify(creaturesData));
-    res.redirect('/prehistoric_creatures');
-});
 
 
 module.exports = router;

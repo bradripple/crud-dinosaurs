@@ -6,13 +6,17 @@ const fs = require('fs');
 
 const PORT = process.env.PORT || 8000;
 
-app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
+app.use(ejsLayouts)
+app.use(methodOverride('_method'));
+app.use(express.urlencoded({extended: false}));
 app.use('/dinosaurs', require('./controllers/dinosaurs'));
 app.use('/prehistoric_creatures', require('./controllers/prehistoric_creatures'));
 // body-parser middleware
-app.use(express.urlencoded({extended: false}));
 
+// app.get('/', function (req, res){ 
+//     res.render('/home')
+// }) 
 
 
 

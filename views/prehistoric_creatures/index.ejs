@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="GET" action="/dinosaurs">
+    <form method="GET" action="/prehistoric_creatures">
         <label for="nameFilter">Filter by Name</label>
         <input id="nameFilter" type="text" name="nameFilter">
         <input type="submit">
@@ -16,7 +16,7 @@
 
    <ul>
        <% myCreatures.forEach(function(creature, index) { %>
-        <li><%= creature.type %> Check out this image <%= creature.img_url %> 
+        <li><%= creature.type %> Check out this image <img src="<%= creature.img_url %>" alt="" width="600" height="200"> 
             <a href="/prehistoric_creatures/edit/<%= index %>">Edit</a>
             <form method="POST" action="/prehistoric_creatures/<%= index %>/?_method=DELETE">
                 <input type="submit" value="Delete">
@@ -24,6 +24,8 @@
         </li>
         <% }); %>
    </ul>
+
+
 </body>
 </html>
 
